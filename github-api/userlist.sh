@@ -26,7 +26,8 @@ function github_api_get {
 function list_users_with_read_access {
     local endpoint="repos/${REPO_OWNER}/${REPO_NAME}/collaborators"
 
-    # Fetch the list of collaborators on the repository
+    # Fetch the list of collaborators on the repository, pull can be replaced with other parameters as required.
+    # jq command can be removed if entire json output is required
     collaborators="$(github_api_get "$endpoint" | jq -r '.[] | select(.permissions.pull == true) | .login')"
 
     # Display the list of collaborators with read access
@@ -38,7 +39,7 @@ function list_users_with_read_access {
     fi
 }
 
-
+#helper function to give message if args are not used.
 function helper {
     exp_args=2
     if [ $# -ne $exp_args]; then
